@@ -1,0 +1,1 @@
+export type FilterOption = 'name' | 'currency' | 'language' | 'capital'

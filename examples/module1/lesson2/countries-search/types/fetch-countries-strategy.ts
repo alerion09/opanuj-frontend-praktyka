@@ -1,0 +1,1 @@
+export type FetchCountriesStrategy = 'name' | 'currency' | 'language' | 'capital';
