@@ -1,10 +1,14 @@
 <script lang="ts">
+  import { useAddUser } from '../hooks/use-add-user.ts';
+
   interface Props {
     isOpen?: boolean;
     onClose: () => void;
   }
 
   let { isOpen = false, onClose }: Props = $props();
+
+  const addUser = useAddUser();
 
   let name = $state('');
   let status = $state('New');
@@ -31,16 +35,7 @@
     error = null;
 
     try {
-      const response = await fetch('http://localhost:3000/api/data/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, status }),
-      });
-
-      if (!response.ok) throw new Error('Failed to add user');
-
+      await $addUser.mutateAsync({ name, status });
       onClose();
     } catch (e) {
       error = e instanceof Error ? e.message : 'Failed to add user';

@@ -1,35 +1,17 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import type { User } from '../model/User';
   import { getStatusColor } from '../utils/statusColors';
+  import { useUsers } from '../hooks/use-users.ts';
 
-  let users = $state<User[]>([]);
-  let loading = $state(true);
-  let error = $state<string | null>(null);
-
-  const fetchUsers = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/api/data/users');
-      if (!response.ok) throw new Error('Failed to fetch users');
-      const data = await response.json();
-      users = data;
-    } catch (e) {
-      error = e instanceof Error ? e.message : 'An error occurred';
-    } finally {
-      loading = false;
-    }
-  };
-
-  onMount(fetchUsers);
+  const users = useUsers();
 </script>
 
-{#if loading}
+{#if $users.isLoading}
   <div>Loading users...</div>
-{:else if error}
-  <div>Error: {error}</div>
+{:else if $users.error}
+  <div>Error: {$users.error}</div>
 {:else}
   <div class="grid gap-4" data-testid="users-list">
-    {#each users as user (user.id)}
+    {#each $users.data as user (user.id)}
       <div
         class="bg-white rounded-lg shadow p-4 flex justify-between items-center"
         data-testid="user-item"
