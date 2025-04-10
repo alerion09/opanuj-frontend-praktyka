@@ -16,4 +16,14 @@ describe('Form validation', () => {
     const errors = formValidator('John', 'Doe', -1);
     expect(errors).toContain('Age must be a positive number');
   });
+
+  test('should not return errors', () => {
+    const errors = formValidator('John', 'Doe', 1);
+    expect(errors).toEqual([]);
+  })
+
+  test('should age be a number', () => {
+    const errors = formValidator('John', 'Doe', 'a' as any);
+    expect(errors).toContain('Age must be a number');
+  })
 });
