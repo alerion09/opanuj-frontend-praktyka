@@ -2,6 +2,7 @@
 
 import { describe, test, expect } from 'vitest';
 import { renderItems } from './renderer';
+import { queryAllByText } from '@testing-library/dom';
 
 const users: User[] = [
   { id: 1, name: 'John', age: 30, role: 'user' },
@@ -16,6 +17,7 @@ describe('User renderer', () => {
     const container = document.createElement('div');
     renderItems(container, users);
     expect(Array.from(container.querySelectorAll('li'))).toHaveLength(3);
+    expect(queryAllByText(container, 'Admin', { exact: false })).toHaveLength(1);
   });
 
   test('should render only regular users if non-admin is rendering the list', () => {
@@ -24,5 +26,6 @@ describe('User renderer', () => {
     const container = document.createElement('div');
     renderItems(container, users);
     expect(Array.from(container.querySelectorAll('li'))).toHaveLength(2);
+    expect(queryAllByText(container, 'Admin', { exact: false })).toHaveLength(0);
   });
 });
