@@ -7,15 +7,15 @@ export class MainPage {
   readonly navigation: Locator;
   private readonly featuredArticleExcerpt: Locator;
   private readonly searchInput: Locator;
+  private readonly menu: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.navigation = page.getByRole('navigation', {
       name: 'Personal tools',
     });
-
     this.featuredArticleExcerpt = page.locator('#mp-tfa');
-
+    this.menu = page.getByRole('button', { name: 'menu' });
     this.searchInput = page
       .getByRole('search')
       .getByRole('searchbox', { name: /Search Wikipedia/i });
@@ -42,6 +42,13 @@ export class MainPage {
     return this.page.waitForURL(`**${articleHref}`);
   }
 
+  async goToCommunityPortal() {
+    await this.openMenu();
+    const list = this.page.locator('#vector-main-menu');
+    const link = list.getByRole('link', { name: /Community portal/i });
+    await link.click();
+  }
+
   async searchFor(term: string) {
     return this.searchInput.fill(term);
   }
@@ -56,5 +63,9 @@ export class MainPage {
 
   getNavigation() {
     return this.navigation;
+  }
+
+  async openMenu() {
+    await this.menu.click();
   }
 }
