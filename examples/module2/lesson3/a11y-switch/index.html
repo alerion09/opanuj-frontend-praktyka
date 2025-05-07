@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>a11y Switch practice app</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+  <h1>a11y Switch practice app</h1>
+    <div id="app">
+      <form class="mt-4 px-4">
+      <p class="font-medium text-lg mb-2">Formularz</p>
+        <div class="flex items-start flex-col gap-4">
+        <label>
+          Imię:
+          <input class="border" type="text" name="firstName" id="firstName" />
+        </label>
+        <custom-switch id="switch" label="Aktywny"></custom-switch>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Zapisz</button>
+        </div>
+      </form>
+    </div>
+  <script type="module" src="./components/custom-switch/custom-switch.ts"></script>
+  </body>
+  <script src="./index.ts" type="application/javascript"></script>
+</html>
